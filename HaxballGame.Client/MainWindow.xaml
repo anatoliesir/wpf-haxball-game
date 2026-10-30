@@ -1,0 +1,51 @@
+﻿<Window x:Class="HaxballGame.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HaxballGame.Client"
+        mc:Ignorable="d"
+        Title="WPF Haxball Client" Height="800" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.StartCommand}" Executed="Start_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindow.StopCommand}" Executed="Stop_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindow.MoveUpCommand}" Executed="UpMove_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindow.MoveRightCommand}" Executed="RightMove_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindow.MoveDownCommand}" Executed="DownMove_Executed"/>
+        <CommandBinding Command="{x:Static local:MainWindow.MoveLeftCommand}" Executed="LeftMove_Executed"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="W" Command="{x:Static local:MainWindow.MoveUpCommand}"/>
+        <KeyBinding Key="D" Command="{x:Static local:MainWindow.MoveRightCommand}"/>
+        <KeyBinding Key="S" Command="{x:Static local:MainWindow.MoveDownCommand}"/>
+        <KeyBinding Key="A" Command="{x:Static local:MainWindow.MoveLeftCommand}"/>
+    </Window.InputBindings>
+    
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" Margin="10" DockPanel.Dock="Top">
+            <Button Content="Start" Width="100" Height="30" VerticalAlignment="Center"
+                    Margin="10" Command="{x:Static local:MainWindow.StartCommand}"/>
+            <Button Content="Stop" Width="100" Height="30" VerticalAlignment="Center"
+                    Margin="10" Command="{x:Static local:MainWindow.StopCommand}"/>
+            <CheckBox Content="Debug" x:Name="chkDebug" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="txtStare" Text="Salut" Margin="10 0 0 0"/>
+            </StatusBarItem>
+        </StatusBar>
+        
+        
+        <Border BorderBrush="DarkGray" CornerRadius="2" Margin="10 0 10 10"
+                BorderThickness="2">
+            <Canvas x:Name="cnvGameScreen">
+                
+            </Canvas>
+        </Border>
+
+        
+        
+    </DockPanel>
+</Window>

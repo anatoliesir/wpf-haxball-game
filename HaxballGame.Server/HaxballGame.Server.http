@@ -1,0 +1,6 @@
+@HaxballGame.Server_HostAddress = http://localhost:5110
+
+GET {{HaxballGame.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
