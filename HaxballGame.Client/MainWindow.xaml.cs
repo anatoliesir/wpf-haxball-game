@@ -6,9 +6,11 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace HaxballGame.Client
 {
@@ -24,26 +26,6 @@ namespace HaxballGame.Client
             "Start",
             typeof(MainWindow)
         );
-        public static readonly RoutedUICommand MoveUpCommand = new RoutedUICommand(
-            "Move up",
-            "MoveUp",
-            typeof(MainWindow)
-        );
-        public static readonly RoutedUICommand MoveLeftCommand = new RoutedUICommand(
-            "Move left",
-            "MoveLeft",
-            typeof(MainWindow)
-        );
-        public static readonly RoutedUICommand MoveDownCommand = new RoutedUICommand(
-            "Move down",
-            "MoveDown",
-            typeof(MainWindow)
-        );
-        public static readonly RoutedUICommand MoveRightCommand = new RoutedUICommand(
-            "Move rigth",
-            "MoveRigth",
-            typeof(MainWindow)
-        );
 
         public static readonly RoutedUICommand StopCommand = new RoutedUICommand(
             "Stop Game",
@@ -53,15 +35,19 @@ namespace HaxballGame.Client
         
 
         bool IsGameOn = false;
-
         Player Player = new Player(Brushes.Red, 50, 50);
+        private int _frameTime = 17;
+        double moveX = 0;
+        double moveY = 0;
+        double speed = 5;
 
         public MainWindow()
         {
             InitializeComponent();
+
         }
         
-        private void Start_Executed(object sender, ExecutedRoutedEventArgs e)
+        private async void Start_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (IsGameOn) return;
             IsGameOn = true;
@@ -70,6 +56,48 @@ namespace HaxballGame.Client
             cnvGameScreen.Children.Add(Player.Ellipse);
             if (chkDebug.IsChecked == true)
                 txtStare.Text = "Jocul a fost pornit!";
+
+            await GameLoop();
+            
+        }
+
+        private async Task GameLoop()
+        {
+            while (IsGameOn)
+            {
+                await Task.Delay(_frameTime);
+                if (Keyboard.IsKeyDown(Key.W))
+                {
+                    moveY -= 1;
+                }
+                if (Keyboard.IsKeyDown(Key.D))
+                {
+                    moveX += 1;
+                }
+                if (Keyboard.IsKeyDown(Key.S))
+                {
+                     moveY += 1;
+                }
+                if (Keyboard.IsKeyDown(Key.A))
+                {
+                    moveX -= 1;
+                }
+
+                double lenght = Math.Sqrt(moveX * moveX + moveY * moveY);
+
+                if (lenght > 0)
+                {
+                    // Normalizarea vitezei diagonale
+                    moveX = moveX / lenght * speed;
+                    moveY = moveY / lenght * speed;
+
+                    Canvas.SetLeft(Player.Ellipse, Canvas.GetLeft(Player.Ellipse) + moveX);
+                    Canvas.SetTop(Player.Ellipse, Canvas.GetTop(Player.Ellipse) + moveY);
+                    moveY = 0;
+                    moveX = 0;
+
+                }
+            }
         }
         private void Stop_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -78,31 +106,7 @@ namespace HaxballGame.Client
             cnvGameScreen.Children.Remove(Player.Ellipse);
             if (chkDebug.IsChecked == true)
                 txtStare.Text = "Jocul a fost oprit!";
-        }
-
-        private void UpMove_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (chkDebug.IsChecked == true && IsGameOn) 
-                txtStare.Text = "Merge sus!";
-        }
-
-        private void RightMove_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (chkDebug.IsChecked == true && IsGameOn)
-                txtStare.Text = "Merge dreapta!";
-        }
-
-        private void DownMove_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (chkDebug.IsChecked == true && IsGameOn)
-                txtStare.Text = "Merge jos!";
-        }
-
-        private void LeftMove_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (chkDebug.IsChecked == true && IsGameOn)
-                txtStare.Text = "Merge stanga!";
-        }
+        }        
 
         
     }

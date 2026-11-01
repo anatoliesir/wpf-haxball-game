@@ -5,22 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HaxballGame.Client"
         mc:Ignorable="d"
-        Title="WPF Haxball Client" Height="800" Width="800"
+        Title="WPF Haxball Client" Height="800" Width="1400"
         WindowStartupLocation="CenterScreen">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.StartCommand}" Executed="Start_Executed"/>
         <CommandBinding Command="{x:Static local:MainWindow.StopCommand}" Executed="Stop_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.MoveUpCommand}" Executed="UpMove_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.MoveRightCommand}" Executed="RightMove_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.MoveDownCommand}" Executed="DownMove_Executed"/>
-        <CommandBinding Command="{x:Static local:MainWindow.MoveLeftCommand}" Executed="LeftMove_Executed"/>
     </Window.CommandBindings>
-    <Window.InputBindings>
-        <KeyBinding Key="W" Command="{x:Static local:MainWindow.MoveUpCommand}"/>
-        <KeyBinding Key="D" Command="{x:Static local:MainWindow.MoveRightCommand}"/>
-        <KeyBinding Key="S" Command="{x:Static local:MainWindow.MoveDownCommand}"/>
-        <KeyBinding Key="A" Command="{x:Static local:MainWindow.MoveLeftCommand}"/>
-    </Window.InputBindings>
+
     
     <DockPanel>
         <StackPanel Orientation="Horizontal" Margin="10" DockPanel.Dock="Top">
